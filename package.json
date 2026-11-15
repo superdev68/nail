@@ -1,0 +1,50 @@
+{
+  "name": "nailroom-booking-customer",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_OPTIONS=\"-r ./slowbuffer-polyfill.cjs\" next dev -p 3001",
+    "dev:real": "NODE_OPTIONS=\"-r ./slowbuffer-polyfill.cjs\" NODE_EXTRA_CA_CERTS=./certs/sectigo-chain.pem NEXT_PUBLIC_API_MODE=real next dev -p 3001",
+    "build": "NODE_OPTIONS=\"-r ./slowbuffer-polyfill.cjs\" next build",
+    "start": "NODE_OPTIONS=\"-r ./slowbuffer-polyfill.cjs\" next start -p 3001",
+    "lint": "next lint",
+    "postbuild": "next-sitemap"
+  },
+  "dependencies": {
+    "@fullhuman/postcss-purgecss": "^4.1.3",
+    "@reduxjs/toolkit": "^1.8.2",
+    "@types/js-cookie": "^3.0.2",
+    "@types/react-redux": "^7.1.24",
+    "axios": "^0.27.2",
+    "inputmask": "^5.0.9",
+    "intl-tel-input": "18.2.1",
+    "js-cookie": "^3.0.1",
+    "moment": "^2.30.1",
+    "motion": "^14.14.0",
+    "next": "12.1.6",
+    "next-connect": "^0.12.2",
+    "next-sitemap": "^3.1.17",
+    "next-themes": "^0.2.0",
+    "nextjs-progressbar": "^0.0.14",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
+    "react-hot-toast": "^2.2.0",
+    "react-icons": "^4.12.0",
+    "react-query": "^3.38.1",
+    "react-redux": "^8.0.2",
+    "react-toastify": "^9.0.7",
+    "url-loader": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "17.0.31",
+    "@types/react": "18.0.8",
+    "@types/react-dom": "18.0.3",
+    "autoprefixer": "^10.4.7",
+    "eslint": "8.14.0",
+    "eslint-config-next": "12.1.6",
+    "postcss": "^8.4.14",
+    "postcss-import": "^14.1.0",
+    "tailwindcss": "^3.1.4",
+    "typescript": "4.6.4"
+  }
+}

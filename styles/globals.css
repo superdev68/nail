@@ -1,0 +1,1605 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Be Vietnam Pro - Normal */
+@font-face {
+  font-family: "BeVietnamPro";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/Be_Vietnam_Pro/BeVietnamPro-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "BeVietnamPro";
+  font-weight: 500;
+  font-style: normal;
+  src: url("/fonts/Be_Vietnam_Pro/BeVietnamPro-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "BeVietnamPro";
+  font-weight: 600;
+  font-style: normal;
+  src: url("/fonts/Be_Vietnam_Pro/BeVietnamPro-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "BeVietnamPro";
+  font-weight: 700;
+  font-style: normal;
+  src: url("/fonts/Be_Vietnam_Pro/BeVietnamPro-Bold.ttf") format("truetype");
+}
+
+/* Bố cục: ảnh bìa lớn + logo tròn chồng mép dưới, thanh 3 tab dính, form bên trái và phiếu hẹn dính bên phải.
+   Desktop > 1100px, tablet 861–1100px, phone <= 860px. */
+:root {
+  --color-primary: 131, 69, 6;
+  --color-secondary: 100, 54, 12;
+  --color-bg: 241, 239, 239;
+  --color-bg-side: 255, 255, 255;
+  --color-text-base: 28, 26, 34;
+  --color-text-muted: 108, 104, 119;
+  --color-text-side: 255, 255, 255;
+
+  --brand: rgb(131, 69, 6);
+  --on-brand: #ffffff;
+  --brand-ink: rgb(100, 54, 12);
+  --brand-soft: rgb(244, 238, 233);
+  --brand-line: rgb(220, 203, 185);
+  --bg: rgb(241, 239, 239);
+  --cv-b: rgb(187, 153, 118);
+  --cv-c: rgb(228, 214, 200);
+  --cv-d: rgb(87, 48, 14);
+  --surface: #ffffff;
+  --ink: #1c1a22;
+  --muted: #6c6877;
+  --line: #e4e2e9;
+  --ok: #17804f;
+  --ok-soft: #e5f4ec;
+  --warn: #b4530a;
+  --warn-soft: #fdf0e0;
+  --danger: #b3261e;
+  --danger-soft: #fbe9e7;
+  --display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --body: "Be Vietnam Pro", "BeVietnamPro", system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --r: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+a {
+  color: var(--brand-ink);
+}
+[hidden] {
+  display: none !important;
+}
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+svg.i {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* ---- ảnh bìa + nhận diện cửa hàng ---- */
+.head {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.cover {
+  position: relative;
+  height: clamp(150px, 29vw, 320px);
+  border-radius: 0 0 22px 22px;
+  overflow: hidden;
+  background: var(--cv-d);
+}
+.cover svg,
+.cover img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.cover img {
+  object-fit: cover;
+}
+.cv-a {
+  fill: var(--brand);
+}
+.cv-b {
+  fill: var(--cv-b);
+}
+.cv-c {
+  fill: var(--cv-c);
+}
+.cv-d {
+  fill: var(--cv-d);
+}
+.cv-l {
+  fill: none;
+  stroke: var(--cv-c);
+  stroke-width: 1.5;
+  opacity: 0.6;
+}
+.cover-top {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+.lang {
+  display: flex;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  padding: 3px;
+}
+.lang button {
+  border: 0;
+  background: none;
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.lang button[aria-pressed="true"] {
+  background: var(--ink);
+  color: #fff;
+}
+
+.identity {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  padding: 0 12px 18px;
+  margin-top: -58px;
+  position: relative;
+}
+.logo {
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  flex: none;
+  background: var(--brand) center/cover no-repeat;
+  border: 5px solid var(--surface);
+  box-shadow: 0 6px 20px rgba(28, 26, 34, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--on-brand);
+  font-family: var(--display);
+  font-size: 54px;
+  font-weight: 600;
+}
+.logo.has-img {
+  background-color: var(--surface);
+}
+.id-main {
+  flex: 1;
+  min-width: 0;
+  padding-top: 70px;
+}
+.id-main h1 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(24px, 3.6vw, 36px);
+  line-height: 1.15;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.meta span,
+.meta a {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  text-decoration: none;
+  min-width: 0;
+}
+.meta a {
+  color: var(--ink);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.meta b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.id-actions {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 4px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 10px 18px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.btn:hover {
+  border-color: var(--brand-line);
+}
+.btn.primary {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--on-brand);
+}
+.btn.primary:hover {
+  filter: brightness(0.93);
+}
+.btn.block {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 16px;
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.promo {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: var(--warn-soft);
+  color: var(--warn);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin: 0 12px 16px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ---- tab ---- */
+.tabs {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.tabs-in {
+  display: flex;
+  gap: 4px;
+}
+.tab {
+  border: 0;
+  background: none;
+  padding: 14px 18px;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.tab:hover {
+  color: var(--ink);
+}
+.tab[aria-selected="true"] {
+  color: var(--brand-ink);
+  border-bottom-color: var(--brand);
+}
+.tab small {
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--bg);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+
+main {
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+.cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 24px;
+  align-items: start;
+}
+.stack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  min-width: 0;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 20px;
+  min-width: 0;
+}
+.step-h {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0 0 16px;
+}
+.step-h i {
+  font-style: normal;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex: none;
+}
+/* số thứ tự bước tự đánh theo các thẻ đang hiện, thẻ bị ẩn không chiếm số */
+.stack {
+  counter-reset: step;
+}
+.stack > .card {
+  counter-increment: step;
+}
+.step-h i::before {
+  content: counter(step);
+}
+.step-h h2 {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0;
+}
+.step-h span {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: right;
+}
+.sub {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 18px 0 8px;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  align-content: start;
+}
+.field.full {
+  grid-column: 1/-1;
+}
+.field label,
+.field .lbl {
+  font-size: 13px;
+  font-weight: 600;
+}
+.field label em {
+  font-style: normal;
+  color: var(--danger);
+}
+.input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 11px 12px;
+  background: var(--surface);
+  font-size: 16px;
+}
+.input:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-soft);
+}
+.field.has-error .input {
+  border-color: var(--danger);
+}
+textarea.input {
+  min-height: 76px;
+  resize: vertical;
+}
+.iti {
+  display: block;
+}
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 3px;
+  background: var(--bg);
+  max-width: 100%;
+}
+.seg button {
+  border: 0;
+  background: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.seg button[aria-pressed="true"] {
+  background: var(--brand);
+  color: var(--on-brand);
+  box-shadow: 0 1px 3px rgba(28, 26, 34, 0.14);
+}
+.field .seg {
+  justify-self: start;
+}
+.seg.wide {
+  display: flex;
+}
+.seg.wide button {
+  flex: 1;
+  padding: 8px 6px;
+}
+.guests {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  flex: none;
+}
+.stepper button {
+  border: 0;
+  background: none;
+  width: 38px;
+  height: 38px;
+  font-size: 18px;
+  border-radius: 50%;
+}
+.stepper output {
+  min-width: 28px;
+  text-align: center;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.spin {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--brand-line);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: -2px;
+  margin-left: 6px;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* hàng nút lọc: vẫn vuốt ngang được nhưng không hiện thanh cuộn */
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0;
+  margin: 4px 0 14px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.chips::-webkit-scrollbar {
+  display: none;
+}
+/* nút mũi tên để cuộn hàng nút lọc bằng chuột khi hàng dài hơn khung */
+.chips-wrap {
+  position: relative;
+}
+.chips-nav {
+  position: absolute;
+  top: 4px;
+  bottom: 14px;
+  width: 44px;
+  border: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  background: linear-gradient(
+    to right,
+    var(--surface) 55%,
+    rgba(255, 255, 255, 0)
+  );
+}
+.chips-nav.prev {
+  left: 0;
+  justify-content: flex-start;
+}
+.chips-nav.next {
+  right: 0;
+  justify-content: flex-end;
+  background: linear-gradient(
+    to left,
+    var(--surface) 55%,
+    rgba(255, 255, 255, 0)
+  );
+}
+.chips-nav span {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+  box-shadow: 0 1px 4px rgba(28, 26, 34, 0.12);
+}
+.chips-nav:hover span {
+  border-color: var(--brand);
+  color: var(--brand-ink);
+}
+#saloninfo .chips-nav {
+  background: none;
+}
+.chip {
+  flex: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--muted);
+}
+.chip[aria-pressed="true"] {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--on-brand);
+}
+.chip small {
+  font-weight: 600;
+  opacity: 0.7;
+  margin-left: 4px;
+}
+.opt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
+}
+.opt {
+  position: relative;
+  text-align: left;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 14px 46px 14px 16px;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  align-content: start;
+}
+.opt:hover {
+  border-color: var(--brand-line);
+}
+.opt b {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.opt small {
+  color: var(--muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+/* chi nhánh đang chọn: tô kín màu chủ đạo và có dấu tích */
+.opt[aria-pressed="true"] {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: var(--on-brand);
+}
+.opt[aria-pressed="true"] small {
+  color: var(--on-brand);
+  opacity: 0.85;
+}
+.opt[aria-pressed="true"]::before {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--on-brand);
+}
+.opt[aria-pressed="true"]::after {
+  content: "";
+  position: absolute;
+  right: 22px;
+  top: 18px;
+  width: 6px;
+  height: 11px;
+  border: solid var(--brand);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.more {
+  border: 0;
+  background: none;
+  color: var(--brand-ink);
+  font-weight: 600;
+  padding: 10px 0 0;
+}
+
+.days {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.days::-webkit-scrollbar {
+  display: none;
+}
+.days-wrap .chips-nav {
+  top: 0;
+  bottom: 6px;
+}
+.day {
+  flex: none;
+  width: 72px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 8px 0;
+  display: grid;
+  justify-items: center;
+}
+.day small {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.day b {
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+}
+.day[aria-pressed="true"] {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--on-brand);
+}
+.day[aria-pressed="true"] small {
+  color: var(--on-brand);
+}
+.other-date {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.other-date .input {
+  width: auto;
+  padding: 8px 10px;
+}
+.tz-warn {
+  color: var(--danger);
+  font-size: 12px;
+  margin: 10px 0 0;
+}
+/* ô khung giờ: giờ ở dải trên, trạng thái "Còn chỗ" / "Hết chỗ" ở dòng dưới */
+.slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(86px, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+.slot {
+  display: grid;
+  border: 1px solid var(--brand);
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 0;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+.slot-time {
+  background: var(--brand);
+  color: var(--on-brand);
+  font-weight: 700;
+  padding: 6px 0;
+}
+.slot-status {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 4px 2px;
+}
+.slot:hover:not(:disabled) {
+  box-shadow: 0 0 0 3px var(--brand-line);
+}
+.slot[aria-pressed="true"] {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.slot[aria-pressed="true"] .slot-status {
+  background: var(--brand);
+  color: var(--on-brand);
+}
+.slot:disabled {
+  border-color: var(--line);
+  cursor: not-allowed;
+}
+.slot:disabled .slot-time {
+  background: var(--bg);
+  color: #a39fae;
+}
+.slot:disabled .slot-status {
+  color: #a39fae;
+  font-weight: 500;
+}
+.slot-msg {
+  color: var(--danger);
+  text-align: center;
+  margin: 20px 0 12px;
+}
+.slot-loading {
+  color: var(--muted);
+  text-align: center;
+  margin: 20px 0 12px;
+}
+.slot-loading .spin {
+  margin: 0 8px 0 0;
+}
+#time-block.has-error .sub {
+  color: var(--danger);
+}
+
+.search {
+  position: relative;
+  margin-bottom: 10px;
+}
+.search svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+}
+.search .input {
+  padding-left: 38px;
+}
+.none {
+  color: var(--muted);
+  padding: 14px 0;
+  margin: 0;
+}
+.hint {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  color: var(--muted);
+  font-size: 13px;
+  margin: -6px 0 12px;
+}
+.hint svg {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+.svc-list {
+  display: grid;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-width: thin;
+}
+.svc {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.svc:first-child {
+  border-top: 0;
+}
+.svc-t {
+  flex: 1;
+  min-width: 0;
+}
+.svc-t b {
+  display: block;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.svc-t small {
+  color: var(--muted);
+  font-size: 13px;
+}
+.price {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.add {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--brand-line);
+  background: var(--surface);
+  color: var(--brand-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.add[aria-pressed="true"] {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--on-brand);
+}
+
+/* kỹ thuật viên: ô chữ nhật ngang giống ô chi nhánh, ảnh đại diện bên trái */
+.techs {
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 1px 6px 1px 1px;
+  scrollbar-width: thin;
+}
+.opt.tech {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tech .av {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--brand-soft) center/cover no-repeat;
+  color: var(--brand-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+.tech .tech-t {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.tech[aria-pressed="true"] .av {
+  background-color: var(--on-brand);
+  color: var(--brand);
+}
+
+/* phiếu hẹn */
+.ticket {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 68px;
+  padding: 0;
+  overflow: hidden;
+}
+.ticket h2 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0;
+  padding: 16px 20px;
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+}
+.ticket-b {
+  padding: 16px 20px 20px;
+  display: grid;
+  gap: 12px;
+}
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+}
+.row svg {
+  color: var(--muted);
+  margin-top: 2px;
+}
+.row div {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.row small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+.row .empty {
+  color: var(--muted);
+}
+.t-svcs {
+  border-top: 1px dashed var(--line);
+  padding-top: 12px;
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+}
+.t-svc {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.t-svc span:first-child {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.t-svc span.price {
+  font-weight: 500;
+}
+.t-svc button {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  padding: 0 2px;
+  font-size: 16px;
+  line-height: 1.3;
+}
+.total {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+}
+.total div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+.total span {
+  color: var(--muted);
+}
+.total b {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.total .big b {
+  font-size: 20px;
+}
+.err {
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.done {
+  text-align: center;
+  padding: 36px 20px;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+.done .ok {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--ok-soft);
+  color: var(--ok);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.done .ok svg {
+  width: 32px;
+  height: 32px;
+  stroke-width: 2.4;
+}
+.done h2 {
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0;
+}
+.done p {
+  margin: 0;
+  color: var(--muted);
+  max-width: 52ch;
+}
+.done dl {
+  margin: 6px 0;
+  text-align: left;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 18px;
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 16px 18px;
+  width: 100%;
+  max-width: 480px;
+  font-size: 14px;
+}
+.done dt {
+  color: var(--muted);
+}
+.done dd {
+  margin: 0;
+  font-weight: 600;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* tab chi nhánh */
+.branches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.branch {
+  padding: 0;
+  overflow: hidden;
+  display: grid;
+  align-content: start;
+}
+.map {
+  height: 84px;
+  background: linear-gradient(
+      115deg,
+      transparent 46%,
+      var(--surface) 46%,
+      var(--surface) 49%,
+      transparent 49%
+    ),
+    linear-gradient(
+      20deg,
+      transparent 60%,
+      var(--surface) 60%,
+      var(--surface) 62.5%,
+      transparent 62.5%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 28%,
+      var(--surface) 28%,
+      var(--surface) 30%,
+      transparent 30%
+    ),
+    var(--brand-soft);
+  position: relative;
+}
+.map::after {
+  content: "";
+  position: absolute;
+  left: 46%;
+  top: 34%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--brand);
+  box-shadow: 0 0 0 4px var(--surface);
+}
+.branch-b {
+  padding: 16px 18px 18px;
+  display: grid;
+  gap: 8px;
+}
+.branch h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.branch p {
+  margin: 0;
+  display: flex;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.branch p svg {
+  margin-top: 2px;
+}
+.branch p a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+}
+.branch-a {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.branch-a .btn {
+  padding: 8px 14px;
+  font-size: 14px;
+}
+
+/* tab dịch vụ */
+.menu-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.menu-tools .search {
+  flex: 1 1 260px;
+  max-width: 420px;
+  margin: 0;
+}
+/* ô chọn chi nhánh ở tab Dịch vụ: danh sách thả xuống tự vẽ, không dùng <select> của trình duyệt */
+.dd {
+  position: relative;
+  flex: 1 1 260px;
+  max-width: 420px;
+  min-width: 0;
+}
+.dd-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+.dd-btn svg {
+  color: var(--muted);
+}
+.dd-btn span {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+.dd-btn::after {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border: solid var(--muted);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin: -4px 4px 0;
+}
+.dd-btn[aria-expanded="true"] {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-soft);
+}
+.dd-panel {
+  position: absolute;
+  z-index: 4;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(28, 26, 34, 0.16);
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 6px;
+}
+.dd-item {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: none;
+  border-radius: 8px;
+  padding: 10px 40px 10px 12px;
+}
+.dd-item:hover {
+  background: var(--bg);
+}
+.dd-item b {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.dd-item small {
+  color: var(--muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.dd-item[aria-selected="true"] {
+  background: var(--brand-soft);
+}
+.dd-item[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  top: 12px;
+  width: 6px;
+  height: 11px;
+  border: solid var(--brand);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.cat-h {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 22px;
+  margin: 28px 0 12px;
+}
+.menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+}
+.item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px;
+}
+.item .desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: pre-line;
+}
+.item .desc.open {
+  display: block;
+}
+.item .toggle {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--brand-ink);
+  font-size: 13px;
+  font-weight: 600;
+}
+.item .dur {
+  display: block;
+  margin-top: 4px;
+}
+.item .side {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+  flex: none;
+}
+.pick {
+  border: 1px solid var(--brand-line);
+  background: var(--surface);
+  color: var(--brand-ink);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.pick[aria-pressed="true"] {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--on-brand);
+}
+
+.foot {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 0 16px 24px;
+}
+.bar {
+  display: none;
+}
+
+/* hộp thông báo */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  background: rgba(20, 16, 26, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+/* cùng kiểu với màn hình đặt lịch thành công: biểu tượng tròn, tiêu đề chữ display, nút bo tròn */
+.modal-box {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 28px 24px 24px;
+  max-width: 400px;
+  width: 100%;
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(20, 16, 26, 0.25);
+}
+.modal-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--danger-soft);
+  color: var(--danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-icon svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 2.2;
+}
+.modal-box h3 {
+  margin: 4px 0 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.2;
+}
+.modal-box p {
+  margin: 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.modal-box .btn {
+  margin-top: 8px;
+  min-width: 160px;
+}
+@media (max-width: 520px) {
+  .modal-box .btn {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .modal:not([hidden]) .modal-box {
+    animation: modal-in 0.18s ease-out;
+  }
+  @keyframes modal-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@media (max-width: 1100px) {
+  .cols {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 16px;
+  }
+  .logo {
+    width: 124px;
+    height: 124px;
+    font-size: 44px;
+  }
+  .identity {
+    margin-top: -48px;
+    flex-wrap: wrap;
+  }
+  .id-main {
+    padding-top: 58px;
+  }
+  .menu {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+@media (max-width: 860px) {
+  .cols {
+    grid-template-columns: 1fr;
+  }
+  .ticket {
+    position: static;
+  }
+  .identity {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: -52px;
+  }
+  .logo {
+    width: 104px;
+    height: 104px;
+    font-size: 38px;
+    border-width: 4px;
+  }
+  .id-main {
+    padding-top: 0;
+    width: 100%;
+  }
+  .id-actions {
+    width: 100%;
+  }
+  .id-actions .btn {
+    flex: 1;
+  }
+  .tab {
+    flex: 1;
+    justify-content: center;
+    padding: 13px 6px;
+    font-size: 14px;
+  }
+  .tab small {
+    display: none;
+  }
+  .card {
+    padding: 16px;
+  }
+  .item {
+    padding: 14px;
+  }
+  main {
+    padding-bottom: 32px;
+  }
+  body.has-bar main {
+    padding-bottom: 24px;
+  }
+  body.has-bar .foot {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  }
+  body.has-bar .bar {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 6;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    gap: 12px;
+    align-items: center;
+    box-shadow: 0 -6px 20px rgba(28, 26, 34, 0.08);
+  }
+  .bar div {
+    flex: 1;
+    min-width: 0;
+  }
+  .bar small {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bar b {
+    font-variant-numeric: tabular-nums;
+    font-size: 15px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+@media (max-width: 520px) {
+  .fields {
+    grid-template-columns: 1fr;
+  }
+  .menu-tools .search,
+  .dd {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+  /* một cột: Điện thoại -> Họ tên -> Danh xưng -> Email (khi có cả điện thoại và email) */
+  .fields.both-contact .f-name {
+    order: 1;
+  }
+  .fields.both-contact .f-gender {
+    order: 2;
+  }
+  .fields.both-contact .f-email {
+    order: 3;
+  }
+  .f-gender .lbl {
+    display: none;
+  }
+  .branches,
+  .menu {
+    grid-template-columns: 1fr;
+  }
+  .opt-grid {
+    grid-template-columns: 1fr;
+  }
+  .slots {
+    grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .opt,
+  .slot,
+  .day,
+  .tech,
+  .btn,
+  .add,
+  .pick,
+  .chip {
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  }
+}
+.iti{position:relative;display:inline-block}.iti *{box-sizing:border-box}.iti__hide{display:none}.iti__v-hide{visibility:hidden}.iti input,.iti input[type=tel],.iti input[type=text]{position:relative;z-index:0;margin-top:0!important;margin-bottom:0!important;padding-right:36px;margin-right:0}.iti__flag-container{position:absolute;top:0;bottom:0;right:0;padding:1px}.iti__selected-flag{z-index:1;position:relative;display:flex;align-items:center;height:100%;padding:0 6px 0 8px}.iti__arrow{margin-left:6px;width:0;height:0;border-left:3px solid transparent;border-right:3px solid transparent;border-top:4px solid #555}[dir=rtl] .iti__arrow{margin-right:6px;margin-left:0}.iti__arrow--up{border-top:none;border-bottom:4px solid #555}.iti__country-list{position:absolute;z-index:2;list-style:none;padding:0;margin:0 0 0 -1px;box-shadow:1px 1px 4px rgba(0,0,0,.2);background-color:#fff;border:1px solid #ccc;white-space:nowrap;max-height:200px;overflow-y:scroll;-webkit-overflow-scrolling:touch}.iti__country-list--dropup{bottom:100%;margin-bottom:-1px}@media (max-width:500px){.iti__country-list{white-space:normal}}.iti__flag-box{display:inline-block;width:20px}.iti__divider{padding-bottom:5px;margin-bottom:5px;border-bottom:1px solid #ccc}.iti__country{display:flex;align-items:center;padding:5px 10px;outline:0}.iti__dial-code{color:#999}.iti__country.iti__highlight{background-color:rgba(0,0,0,.05)}.iti__country-name,.iti__flag-box{margin-right:6px}[dir=rtl] .iti__country-name,[dir=rtl] .iti__flag-box{margin-right:0;margin-left:6px}.iti--allow-dropdown input,.iti--allow-dropdown input[type=tel],.iti--allow-dropdown input[type=text],.iti--separate-dial-code input,.iti--separate-dial-code input[type=tel],.iti--separate-dial-code input[type=text]{padding-right:6px;padding-left:52px;margin-left:0}[dir=rtl] .iti--allow-dropdown input,[dir=rtl] .iti--allow-dropdown input[type=tel],[dir=rtl] .iti--allow-dropdown input[type=text],[dir=rtl] .iti--separate-dial-code input,[dir=rtl] .iti--separate-dial-code input[type=tel],[dir=rtl] .iti--separate-dial-code input[type=text]{padding-right:52px;padding-left:6px;margin-right:0}.iti--allow-dropdown .iti__flag-container,.iti--separate-dial-code .iti__flag-container{right:auto;left:0}[dir=rtl] .iti--allow-dropdown .iti__flag-container,[dir=rtl] .iti--separate-dial-code .iti__flag-container{right:0;left:auto}.iti--allow-dropdown .iti__flag-container:hover{cursor:pointer}.iti--allow-dropdown .iti__flag-container:hover .iti__selected-flag{background-color:rgba(0,0,0,.05)}.iti--allow-dropdown input[disabled]+.iti__flag-container:hover,.iti--allow-dropdown input[readonly]+.iti__flag-container:hover{cursor:default}.iti--allow-dropdown input[disabled]+.iti__flag-container:hover .iti__selected-flag,.iti--allow-dropdown input[readonly]+.iti__flag-container:hover .iti__selected-flag{background-color:transparent}.iti--separate-dial-code .iti__selected-flag{background-color:rgba(0,0,0,.05)}.iti--separate-dial-code.iti--show-flags .iti__selected-dial-code{margin-left:6px}[dir=rtl] .iti--separate-dial-code.iti--show-flags .iti__selected-dial-code{margin-left:0;margin-right:6px}.iti--container{position:absolute;top:-1000px;left:-1000px;z-index:1060;padding:1px}.iti--container:hover{cursor:pointer}.iti-mobile .iti--container{top:30px;bottom:30px;left:30px;right:30px;position:fixed}.iti-mobile .iti__country-list{max-height:100%;width:100%}.iti-mobile .iti__country{padding:10px 10px;line-height:1.5em}.iti__flag{width:20px}.iti__flag.iti__be{width:18px}.iti__flag.iti__ch{width:15px}.iti__flag.iti__mc{width:19px}.iti__flag.iti__ne{width:18px}.iti__flag.iti__np{width:13px}.iti__flag.iti__va{width:15px}@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){.iti__flag{background-size:5762px 15px}}.iti__flag.iti__ac{height:10px;background-position:0 0}.iti__flag.iti__ad{height:14px;background-position:-22px 0}.iti__flag.iti__ae{height:10px;background-position:-44px 0}.iti__flag.iti__af{height:14px;background-position:-66px 0}.iti__flag.iti__ag{height:14px;background-position:-88px 0}.iti__flag.iti__ai{height:10px;background-position:-110px 0}.iti__flag.iti__al{height:15px;background-position:-132px 0}.iti__flag.iti__am{height:10px;background-position:-154px 0}.iti__flag.iti__ao{height:14px;background-position:-176px 0}.iti__flag.iti__aq{height:14px;background-position:-198px 0}.iti__flag.iti__ar{height:13px;background-position:-220px 0}.iti__flag.iti__as{height:10px;background-position:-242px 0}.iti__flag.iti__at{height:14px;background-position:-264px 0}.iti__flag.iti__au{height:10px;background-position:-286px 0}.iti__flag.iti__aw{height:14px;background-position:-308px 0}.iti__flag.iti__ax{height:13px;background-position:-330px 0}.iti__flag.iti__az{height:10px;background-position:-352px 0}.iti__flag.iti__ba{height:10px;background-position:-374px 0}.iti__flag.iti__bb{height:14px;background-position:-396px 0}.iti__flag.iti__bd{height:12px;background-position:-418px 0}.iti__flag.iti__be{height:15px;background-position:-440px 0}.iti__flag.iti__bf{height:14px;background-position:-460px 0}.iti__flag.iti__bg{height:12px;background-position:-482px 0}.iti__flag.iti__bh{height:12px;background-position:-504px 0}.iti__flag.iti__bi{height:12px;background-position:-526px 0}.iti__flag.iti__bj{height:14px;background-position:-548px 0}.iti__flag.iti__bl{height:14px;background-position:-570px 0}.iti__flag.iti__bm{height:10px;background-position:-592px 0}.iti__flag.iti__bn{height:10px;background-position:-614px 0}.iti__flag.iti__bo{height:14px;background-position:-636px 0}.iti__flag.iti__bq{height:14px;background-position:-658px 0}.iti__flag.iti__br{height:14px;background-position:-680px 0}.iti__flag.iti__bs{height:10px;background-position:-702px 0}.iti__flag.iti__bt{height:14px;background-position:-724px 0}.iti__flag.iti__bv{height:15px;background-position:-746px 0}.iti__flag.iti__bw{height:14px;background-position:-768px 0}.iti__flag.iti__by{height:10px;background-position:-790px 0}.iti__flag.iti__bz{height:12px;background-position:-812px 0}.iti__flag.iti__ca{height:10px;background-position:-834px 0}.iti__flag.iti__cc{height:10px;background-position:-856px 0}.iti__flag.iti__cd{height:15px;background-position:-878px 0}.iti__flag.iti__cf{height:14px;background-position:-900px 0}.iti__flag.iti__cg{height:14px;background-position:-922px 0}.iti__flag.iti__ch{height:15px;background-position:-944px 0}.iti__flag.iti__ci{height:14px;background-position:-961px 0}.iti__flag.iti__ck{height:10px;background-position:-983px 0}.iti__flag.iti__cl{height:14px;background-position:-1005px 0}.iti__flag.iti__cm{height:14px;background-position:-1027px 0}.iti__flag.iti__cn{height:14px;background-position:-1049px 0}.iti__flag.iti__co{height:14px;background-position:-1071px 0}.iti__flag.iti__cp{height:14px;background-position:-1093px 0}.iti__flag.iti__cq{height:12px;background-position:-1115px 0}.iti__flag.iti__cr{height:12px;background-position:-1137px 0}.iti__flag.iti__cu{height:10px;background-position:-1159px 0}.iti__flag.iti__cv{height:12px;background-position:-1181px 0}.iti__flag.iti__cw{height:14px;background-position:-1203px 0}.iti__flag.iti__cx{height:10px;background-position:-1225px 0}.iti__flag.iti__cy{height:14px;background-position:-1247px 0}.iti__flag.iti__cz{height:14px;background-position:-1269px 0}.iti__flag.iti__de{height:12px;background-position:-1291px 0}.iti__flag.iti__dg{height:10px;background-position:-1313px 0}.iti__flag.iti__dj{height:14px;background-position:-1335px 0}.iti__flag.iti__dk{height:15px;background-position:-1357px 0}.iti__flag.iti__dm{height:10px;background-position:-1379px 0}.iti__flag.iti__do{height:14px;background-position:-1401px 0}.iti__flag.iti__dz{height:14px;background-position:-1423px 0}.iti__flag.iti__ea{height:14px;background-position:-1445px 0}.iti__flag.iti__ec{height:14px;background-position:-1467px 0}.iti__flag.iti__ee{height:13px;background-position:-1489px 0}.iti__flag.iti__eg{height:14px;background-position:-1511px 0}.iti__flag.iti__eh{height:10px;background-position:-1533px 0}.iti__flag.iti__er{height:10px;background-position:-1555px 0}.iti__flag.iti__es{height:14px;background-position:-1577px 0}.iti__flag.iti__et{height:10px;background-position:-1599px 0}.iti__flag.iti__eu{height:14px;background-position:-1621px 0}.iti__flag.iti__ez{height:14px;background-position:-1643px 0}.iti__flag.iti__fi{height:12px;background-position:-1665px 0}.iti__flag.iti__fj{height:10px;background-position:-1687px 0}.iti__flag.iti__fk{height:10px;background-position:-1709px 0}.iti__flag.iti__fm{height:11px;background-position:-1731px 0}.iti__flag.iti__fo{height:15px;background-position:-1753px 0}.iti__flag.iti__fr{height:14px;background-position:-1775px 0}.iti__flag.iti__fx{height:14px;background-position:-1797px 0}.iti__flag.iti__ga{height:15px;background-position:-1819px 0}.iti__flag.iti__gb{height:10px;background-position:-1841px 0}.iti__flag.iti__gd{height:12px;background-position:-1863px 0}.iti__flag.iti__ge{height:14px;background-position:-1885px 0}.iti__flag.iti__gf{height:14px;background-position:-1907px 0}.iti__flag.iti__gg{height:14px;background-position:-1929px 0}.iti__flag.iti__gh{height:14px;background-position:-1951px 0}.iti__flag.iti__gi{height:10px;background-position:-1973px 0}.iti__flag.iti__gl{height:14px;background-position:-1995px 0}.iti__flag.iti__gm{height:14px;background-position:-2017px 0}.iti__flag.iti__gn{height:14px;background-position:-2039px 0}.iti__flag.iti__gp{height:14px;background-position:-2061px 0}.iti__flag.iti__gq{height:14px;background-position:-2083px 0}.iti__flag.iti__gr{height:14px;background-position:-2105px 0}.iti__flag.iti__gs{height:10px;background-position:-2127px 0}.iti__flag.iti__gt{height:13px;background-position:-2149px 0}.iti__flag.iti__gu{height:11px;background-position:-2171px 0}.iti__flag.iti__gw{height:10px;background-position:-2193px 0}.iti__flag.iti__gy{height:12px;background-position:-2215px 0}.iti__flag.iti__hk{height:14px;background-position:-2237px 0}.iti__flag.iti__hm{height:10px;background-position:-2259px 0}.iti__flag.iti__hn{height:10px;background-position:-2281px 0}.iti__flag.iti__hr{height:10px;background-position:-2303px 0}.iti__flag.iti__ht{height:12px;background-position:-2325px 0}.iti__flag.iti__hu{height:10px;background-position:-2347px 0}.iti__flag.iti__ic{height:14px;background-position:-2369px 0}.iti__flag.iti__id{height:14px;background-position:-2391px 0}.iti__flag.iti__ie{height:10px;background-position:-2413px 0}.iti__flag.iti__il{height:15px;background-position:-2435px 0}.iti__flag.iti__im{height:10px;background-position:-2457px 0}.iti__flag.iti__in{height:14px;background-position:-2479px 0}.iti__flag.iti__io{height:10px;background-position:-2501px 0}.iti__flag.iti__iq{height:14px;background-position:-2523px 0}.iti__flag.iti__ir{height:12px;background-position:-2545px 0}.iti__flag.iti__is{height:15px;background-position:-2567px 0}.iti__flag.iti__it{height:14px;background-position:-2589px 0}.iti__flag.iti__je{height:12px;background-position:-2611px 0}.iti__flag.iti__jm{height:10px;background-position:-2633px 0}.iti__flag.iti__jo{height:10px;background-position:-2655px 0}.iti__flag.iti__jp{height:14px;background-position:-2677px 0}.iti__flag.iti__ke{height:14px;background-position:-2699px 0}.iti__flag.iti__kg{height:12px;background-position:-2721px 0}.iti__flag.iti__kh{height:13px;background-position:-2743px 0}.iti__flag.iti__ki{height:10px;background-position:-2765px 0}.iti__flag.iti__km{height:12px;background-position:-2787px 0}.iti__flag.iti__kn{height:14px;background-position:-2809px 0}.iti__flag.iti__kp{height:10px;background-position:-2831px 0}.iti__flag.iti__kr{height:14px;background-position:-2853px 0}.iti__flag.iti__kw{height:10px;background-position:-2875px 0}.iti__flag.iti__ky{height:10px;background-position:-2897px 0}.iti__flag.iti__kz{height:10px;background-position:-2919px 0}.iti__flag.iti__la{height:14px;background-position:-2941px 0}.iti__flag.iti__lb{height:14px;background-position:-2963px 0}.iti__flag.iti__lc{height:10px;background-position:-2985px 0}.iti__flag.iti__li{height:12px;background-position:-3007px 0}.iti__flag.iti__lk{height:10px;background-position:-3029px 0}.iti__flag.iti__lr{height:11px;background-position:-3051px 0}.iti__flag.iti__ls{height:14px;background-position:-3073px 0}.iti__flag.iti__lt{height:12px;background-position:-3095px 0}.iti__flag.iti__lu{height:12px;background-position:-3117px 0}.iti__flag.iti__lv{height:10px;background-position:-3139px 0}.iti__flag.iti__ly{height:10px;background-position:-3161px 0}.iti__flag.iti__ma{height:14px;background-position:-3183px 0}.iti__flag.iti__mc{height:15px;background-position:-3205px 0}.iti__flag.iti__md{height:10px;background-position:-3226px 0}.iti__flag.iti__me{height:10px;background-position:-3248px 0}.iti__flag.iti__mf{height:14px;background-position:-3270px 0}.iti__flag.iti__mg{height:14px;background-position:-3292px 0}.iti__flag.iti__mh{height:11px;background-position:-3314px 0}.iti__flag.iti__mk{height:10px;background-position:-3336px 0}.iti__flag.iti__ml{height:14px;background-position:-3358px 0}.iti__flag.iti__mm{height:14px;background-position:-3380px 0}.iti__flag.iti__mn{height:10px;background-position:-3402px 0}.iti__flag.iti__mo{height:14px;background-position:-3424px 0}.iti__flag.iti__mp{height:10px;background-position:-3446px 0}.iti__flag.iti__mq{height:14px;background-position:-3468px 0}.iti__flag.iti__mr{height:14px;background-position:-3490px 0}.iti__flag.iti__ms{height:10px;background-position:-3512px 0}.iti__flag.iti__mt{height:14px;background-position:-3534px 0}.iti__flag.iti__mu{height:14px;background-position:-3556px 0}.iti__flag.iti__mv{height:14px;background-position:-3578px 0}.iti__flag.iti__mw{height:14px;background-position:-3600px 0}.iti__flag.iti__mx{height:12px;background-position:-3622px 0}.iti__flag.iti__my{height:10px;background-position:-3644px 0}.iti__flag.iti__mz{height:14px;background-position:-3666px 0}.iti__flag.iti__na{height:14px;background-position:-3688px 0}.iti__flag.iti__nc{height:10px;background-position:-3710px 0}.iti__flag.iti__ne{height:15px;background-position:-3732px 0}.iti__flag.iti__nf{height:10px;background-position:-3752px 0}.iti__flag.iti__ng{height:10px;background-position:-3774px 0}.iti__flag.iti__ni{height:12px;background-position:-3796px 0}.iti__flag.iti__nl{height:14px;background-position:-3818px 0}.iti__flag.iti__no{height:15px;background-position:-3840px 0}.iti__flag.iti__np{height:15px;background-position:-3862px 0}.iti__flag.iti__nr{height:10px;background-position:-3877px 0}.iti__flag.iti__nu{height:10px;background-position:-3899px 0}.iti__flag.iti__nz{height:10px;background-position:-3921px 0}.iti__flag.iti__om{height:10px;background-position:-3943px 0}.iti__flag.iti__pa{height:14px;background-position:-3965px 0}.iti__flag.iti__pe{height:14px;background-position:-3987px 0}.iti__flag.iti__pf{height:14px;background-position:-4009px 0}.iti__flag.iti__pg{height:15px;background-position:-4031px 0}.iti__flag.iti__ph{height:10px;background-position:-4053px 0}.iti__flag.iti__pk{height:14px;background-position:-4075px 0}.iti__flag.iti__pl{height:13px;background-position:-4097px 0}.iti__flag.iti__pm{height:14px;background-position:-4119px 0}.iti__flag.iti__pn{height:10px;background-position:-4141px 0}.iti__flag.iti__pr{height:14px;background-position:-4163px 0}.iti__flag.iti__ps{height:10px;background-position:-4185px 0}.iti__flag.iti__pt{height:14px;background-position:-4207px 0}.iti__flag.iti__pw{height:13px;background-position:-4229px 0}.iti__flag.iti__py{height:11px;background-position:-4251px 0}.iti__flag.iti__qa{height:8px;background-position:-4273px 0}.iti__flag.iti__re{height:14px;background-position:-4295px 0}.iti__flag.iti__ro{height:14px;background-position:-4317px 0}.iti__flag.iti__rs{height:14px;background-position:-4339px 0}.iti__flag.iti__ru{height:14px;background-position:-4361px 0}.iti__flag.iti__rw{height:14px;background-position:-4383px 0}.iti__flag.iti__sa{height:14px;background-position:-4405px 0}.iti__flag.iti__sb{height:10px;background-position:-4427px 0}.iti__flag.iti__sc{height:10px;background-position:-4449px 0}.iti__flag.iti__sd{height:10px;background-position:-4471px 0}.iti__flag.iti__se{height:13px;background-position:-4493px 0}.iti__flag.iti__sg{height:14px;background-position:-4515px 0}.iti__flag.iti__sh{height:10px;background-position:-4537px 0}.iti__flag.iti__si{height:10px;background-position:-4559px 0}.iti__flag.iti__sj{height:15px;background-position:-4581px 0}.iti__flag.iti__sk{height:14px;background-position:-4603px 0}.iti__flag.iti__sl{height:14px;background-position:-4625px 0}.iti__flag.iti__sm{height:15px;background-position:-4647px 0}.iti__flag.iti__sn{height:14px;background-position:-4669px 0}.iti__flag.iti__so{height:14px;background-position:-4691px 0}.iti__flag.iti__sr{height:14px;background-position:-4713px 0}.iti__flag.iti__ss{height:10px;background-position:-4735px 0}.iti__flag.iti__st{height:10px;background-position:-4757px 0}.iti__flag.iti__su{height:10px;background-position:-4779px 0}.iti__flag.iti__sv{height:12px;background-position:-4801px 0}.iti__flag.iti__sx{height:14px;background-position:-4823px 0}.iti__flag.iti__sy{height:14px;background-position:-4845px 0}.iti__flag.iti__sz{height:14px;background-position:-4867px 0}.iti__flag.iti__ta{height:10px;background-position:-4889px 0}.iti__flag.iti__tc{height:10px;background-position:-4911px 0}.iti__flag.iti__td{height:14px;background-position:-4933px 0}.iti__flag.iti__tf{height:14px;background-position:-4955px 0}.iti__flag.iti__tg{height:13px;background-position:-4977px 0}.iti__flag.iti__th{height:14px;background-position:-4999px 0}.iti__flag.iti__tj{height:10px;background-position:-5021px 0}.iti__flag.iti__tk{height:10px;background-position:-5043px 0}.iti__flag.iti__tl{height:10px;background-position:-5065px 0}.iti__flag.iti__tm{height:14px;background-position:-5087px 0}.iti__flag.iti__tn{height:14px;background-position:-5109px 0}.iti__flag.iti__to{height:10px;background-position:-5131px 0}.iti__flag.iti__tr{height:14px;background-position:-5153px 0}.iti__flag.iti__tt{height:12px;background-position:-5175px 0}.iti__flag.iti__tv{height:10px;background-position:-5197px 0}.iti__flag.iti__tw{height:14px;background-position:-5219px 0}.iti__flag.iti__tz{height:14px;background-position:-5241px 0}.iti__flag.iti__ua{height:14px;background-position:-5263px 0}.iti__flag.iti__ug{height:14px;background-position:-5285px 0}.iti__flag.iti__uk{height:10px;background-position:-5307px 0}.iti__flag.iti__um{height:11px;background-position:-5329px 0}.iti__flag.iti__un{height:14px;background-position:-5351px 0}.iti__flag.iti__us{height:11px;background-position:-5373px 0}.iti__flag.iti__uy{height:14px;background-position:-5395px 0}.iti__flag.iti__uz{height:10px;background-position:-5417px 0}.iti__flag.iti__va{height:15px;background-position:-5439px 0}.iti__flag.iti__vc{height:14px;background-position:-5456px 0}.iti__flag.iti__ve{height:14px;background-position:-5478px 0}.iti__flag.iti__vg{height:10px;background-position:-5500px 0}.iti__flag.iti__vi{height:14px;background-position:-5522px 0}.iti__flag.iti__vn{height:14px;background-position:-5544px 0}.iti__flag.iti__vu{height:12px;background-position:-5566px 0}.iti__flag.iti__wf{height:14px;background-position:-5588px 0}.iti__flag.iti__ws{height:10px;background-position:-5610px 0}.iti__flag.iti__xk{height:15px;background-position:-5632px 0}.iti__flag.iti__ye{height:14px;background-position:-5654px 0}.iti__flag.iti__yt{height:14px;background-position:-5676px 0}.iti__flag.iti__za{height:14px;background-position:-5698px 0}.iti__flag.iti__zm{height:14px;background-position:-5720px 0}.iti__flag.iti__zw{height:10px;background-position:-5742px 0}.iti__flag{height:15px;box-shadow:0 0 1px 0 #888;background-image:url(/intl-tel-input/img/flags.png?1);background-repeat:no-repeat;background-color:#dbdbdb;background-position:20px 0}@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){.iti__flag{background-image:url(/intl-tel-input/img/flags@2x.png?1)}}.iti__flag.iti__np{background-color:transparent}
+.iti { display: block; }
