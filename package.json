@@ -6,6 +6,7 @@
     "dev": "NODE_OPTIONS=\"-r ./slowbuffer-polyfill.cjs\" next dev -p 3001",
     "dev:real": "NODE_OPTIONS=\"-r ./slowbuffer-polyfill.cjs\" NODE_EXTRA_CA_CERTS=./certs/sectigo-chain.pem NEXT_PUBLIC_API_MODE=real next dev -p 3001",
     "build": "NODE_OPTIONS=\"-r ./slowbuffer-polyfill.cjs\" next build",
+    "export": "NODE_OPTIONS=\"-r ./slowbuffer-polyfill.cjs\" next export",
     "start": "NODE_OPTIONS=\"-r ./slowbuffer-polyfill.cjs\" next start -p 3001",
     "lint": "next lint",
     "postbuild": "next-sitemap"
