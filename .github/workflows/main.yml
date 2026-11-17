@@ -31,6 +31,9 @@ jobs:
         run: npm install
 
       - name: Build project
+        env:
+          NEXT_PUBLIC_TARGET_URL: https://api-nail.banmacbook.com
+          NEXT_PUBLIC_API_MODE: real
         run: npm run build && npm run export
 
       - name: Upload artifact
