@@ -1,14 +1,13 @@
 /** @type {import('next').NextConfig} */
 
+const isExport = process.env.NEXT_EXPORT === "true";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 const nextConfig = {
   reactStrictMode: true,
-  i18n: {
-    locales: ["vi", "en"],
-    defaultLocale: "en",
-    localeDetection: false,
-  },
   images: {
     domains: ["salonhero-wasabi.becdn.net", "cdn.sanity.io"],
+    ...(isExport ? { unoptimized: true } : {}),
   },
   webpack: function (config) {
     config.resolve.alias = {
@@ -31,6 +30,19 @@ const nextConfig = {
     });
     return config;
   },
+  ...(isExport
+    ? {
+        basePath,
+        assetPrefix: basePath ? `${basePath}/` : "",
+        trailingSlash: true,
+      }
+    : {
+        i18n: {
+          locales: ["vi", "en"],
+          defaultLocale: "en",
+          localeDetection: false,
+        },
+      }),
 };
 
 module.exports = nextConfig;
