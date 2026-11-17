@@ -96,7 +96,7 @@ const BookingView: React.FC = () => {
       } = {
         merchant_id,
         location_id: loc || defaultLocation,
-        date: dayStartISO(date),
+        date: date,
       };
       if (op) params.operator_id = op;
       if (!isSilent) {
@@ -168,7 +168,7 @@ const BookingView: React.FC = () => {
     getTimeFrame({
       merchant_id,
       location_id: locationId,
-      date: dayStartISO(td),
+      date: td,
     })
       .then((r) => {
         if (r && r.timeFrame) {
