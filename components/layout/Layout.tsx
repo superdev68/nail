@@ -1,18 +1,39 @@
-import React from "react";
-import { Provider } from "react-redux";
+import React, { useEffect } from "react";
+import { Provider, useDispatch } from "react-redux";
 import Head from "next/head";
 import { ThemeProvider } from "next-themes";
 import NextNProgress from "nextjs-progressbar";
 import { ToastContainer } from "react-toastify";
 import store from "../../store";
+import { bookingActions } from "../../store/booking-slice";
+import { locationList } from "../../utilities/bookingUtils";
+import { initMerchantDataFromBackend } from "../../services/api";
 import Header from "../header";
 import Footer from "../footer";
 import IconSprite from "../UI/IconSprite";
 import Modal from "../UI/Modal";
 
+const BackendDataSync: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    initMerchantDataFromBackend().then((success) => {
+      if (success) {
+        if (locationList.length > 0) {
+          dispatch(bookingActions.selectLocation(locationList[0].id));
+        }
+        dispatch(bookingActions.triggerReload({ silent: true }));
+      }
+    });
+  }, [dispatch]);
+
+  return null;
+};
+
 const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
     <Provider store={store}>
+      <BackendDataSync />
       <ThemeProvider enableSystem={false} attribute="class" defaultTheme="light">
         <Head>
           <title>Đặt lịch hẹn với Nail Room - Mit’s House</title>

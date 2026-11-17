@@ -17,13 +17,44 @@ if (!setting.limitBookingDate) setting.limitBookingDate = 0;
 export const merchant_id = data.id;
 export const locationList: ILocation[] = data.location || [];
 export const productData: IProduct[] = data.product || [];
-export const defaultLocation: number = locationList[0] ? locationList[0].id : 0;
+export let defaultLocation: number = locationList[0] ? locationList[0].id : 0;
 export const use_email4booking: boolean = !!data.use_email4booking;
 export const merchant_timezone: string = data.timezone || "+07:00";
 export const date_format_pttrn: string = data.date_format
   ? data.date_format.toUpperCase()
   : "DD/MM/YYYY";
 export const time_format_pttrn: string = data.time_format || "HH:mm";
+
+/**
+ * Cập nhật động dữ liệu salon từ API backend
+ */
+export function applyMerchantData(newData: any): void {
+  if (!newData) return;
+  try {
+    Object.assign(data, newData);
+    if (newData.setting) {
+      Object.assign(setting, newData.setting);
+    }
+    if (Array.isArray(newData.location) && newData.location.length > 0) {
+      locationList.splice(0, locationList.length, ...newData.location);
+      defaultLocation = locationList[0].id;
+    }
+    if (Array.isArray(newData.product) && newData.product.length > 0) {
+      productData.splice(0, productData.length, ...newData.product);
+    }
+    if (Array.isArray(newData.operator)) {
+      data.operator = newData.operator;
+    }
+    if (Array.isArray(newData.product_groups)) {
+      data.product_groups = newData.product_groups;
+    }
+    if (newData.workingHours && typeof newData.workingHours === "object") {
+      data.workingHours = newData.workingHours;
+    }
+  } catch (err) {
+    console.error("Lỗi khi cập nhật dữ liệu merchant từ API:", err);
+  }
+}
 
 const displayAllDayOfDay = setting.slotMinutes >= 30;
 export const useSectionOfDay: boolean =

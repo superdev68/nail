@@ -1,15 +1,27 @@
 import moment from "moment";
+import config from "../lib/config";
 import {
   IBookingPayload,
   IGetCustomerParams,
   IGetCustomerResponse,
   IGetTimeFrameParams,
   IGetTimeFrameResponse,
+  ILocation,
+  IOperator,
+  IProduct,
+  IProductGroup,
 } from "../lib/types";
-import { data, setting, merchant_timezone } from "../utilities/bookingUtils";
+import {
+  applyMerchantData,
+  data,
+  merchant_timezone,
+  setting,
+} from "../utilities/bookingUtils";
 
 export const API_MODE: "mock" | "real" =
-  process.env.NEXT_PUBLIC_API_MODE === "real" ? "real" : "mock";
+  config.apiMode === "real" ? "real" : "mock";
+
+const BASE_URL = config.targetUrl || "http://localhost:8282";
 
 // Serialize giống jQuery.param (mảng -> key[]=v) để server gốc hiểu
 export function jqParam(obj: Record<string, any>): string {
@@ -26,31 +38,76 @@ export function jqParam(obj: Record<string, any>): string {
   return parts.join("&").replace(/%20/g, "+");
 }
 
+/**
+ * Generic request helper gọi backend Spring Boot
+ */
+async function requestBackend<T>(
+  endpoint: string,
+  options?: RequestInit,
+  timeout = 30000
+): Promise<T> {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), timeout);
+
+  // Chuẩn hóa URL: gọi trực tiếp backend hoặc qua Next.js proxy
+  const normalizedPath = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+  const directUrl = `${BASE_URL}${normalizedPath}`;
+
+  try {
+    const res = await fetch(directUrl, {
+      ...options,
+      signal: ctrl.signal,
+      headers: {
+        Accept: "application/json",
+        ...(options?.headers || {}),
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    }
+    return (await res.json()) as T;
+  } catch (err) {
+    // Nếu gọi direct bị lỗi, thử gọi qua proxy /api
+    try {
+      const proxyUrl = `/api${normalizedPath}`;
+      const res = await fetch(proxyUrl, {
+        ...options,
+        signal: ctrl.signal,
+      });
+      if (res.ok) {
+        return (await res.json()) as T;
+      }
+    } catch (ignored) {}
+    throw err;
+  } finally {
+    clearTimeout(t);
+  }
+}
+
 async function postReal<T>(
   endpoint: string,
   body: Record<string, any>,
   timeout = 30000
 ): Promise<T> {
-  const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), timeout);
-  try {
-    const res = await fetch(`/api${endpoint}`, {
+  const normalized = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+  return requestBackend<T>(
+    normalized,
+    {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         "X-Requested-With": "XMLHttpRequest",
       },
       body: jqParam(body),
-      signal: ctrl.signal,
-    });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    return (await res.json()) as T;
-  } finally {
-    clearTimeout(t);
-  }
+    },
+    timeout
+  );
 }
 
-// ---------------- MOCK ----------------
+// -----------------------------------------------------------------
+// MOCK FALLBACK (Khi chạy offline hoặc không có backend)
+// -----------------------------------------------------------------
 const LS_KEY = "nailroom_mock_bookings";
 
 interface IMockStoredBooking extends Omit<IBookingPayload, "operator_id"> {
@@ -163,24 +220,250 @@ export async function mockBooking(
   return { status: 1, data: { booking_code: body.booking_code } };
 }
 
-// ---------------- PUBLIC ----------------
+// -----------------------------------------------------------------
+// TẤT CẢ CÁC API TỪ SOURCE NAIL-BACKEND
+// -----------------------------------------------------------------
+
+/**
+ * 1. Lấy danh sách Chi nhánh (Locations) từ /api/locations
+ */
+export async function getLocations(params?: {
+  page?: number;
+  size?: number;
+  city?: string;
+  isActive?: boolean;
+}): Promise<any> {
+  const query = params ? "?" + jqParam(params) : "";
+  return requestBackend(`/api/locations${query}`);
+}
+
+/**
+ * 2. Lấy danh mục dịch vụ từ /api/service-categories
+ */
+export async function getServiceCategories(params?: {
+  page?: number;
+  size?: number;
+}): Promise<any> {
+  const query = params ? "?" + jqParam(params) : "";
+  return requestBackend(`/api/service-categories${query}`);
+}
+
+/**
+ * 3. Lấy danh sách dịch vụ từ /api/services
+ */
+export async function getServices(params?: {
+  page?: number;
+  size?: number;
+  categoryId?: number;
+  isActive?: boolean;
+}): Promise<any> {
+  const query = params ? "?" + jqParam(params) : "";
+  return requestBackend(`/api/services${query}`);
+}
+
+/**
+ * 4. Lấy danh sách Kỹ thuật viên (Technicians) từ /api/technicians
+ */
+export async function getTechnicians(params?: {
+  page?: number;
+  size?: number;
+  locationId?: number;
+  status?: string;
+}): Promise<any> {
+  const query = params ? "?" + jqParam(params) : "";
+  return requestBackend(`/api/technicians${query}`);
+}
+
+/**
+ * 5. Lấy lịch làm việc của Kỹ thuật viên từ /api/technician-schedules
+ */
+export async function getTechnicianSchedules(params?: {
+  page?: number;
+  size?: number;
+  technicianId?: number;
+  workDate?: string;
+}): Promise<any> {
+  const query = params ? "?" + jqParam(params) : "";
+  return requestBackend(`/api/technician-schedules${query}`);
+}
+
+/**
+ * 6. Lấy options tổng hợp từ /api/options
+ */
+export async function getOptions(): Promise<any> {
+  return requestBackend(`/api/options`);
+}
+
+/**
+ * 7. Lấy toàn bộ dữ liệu Salon (Bootstrap/Merchant Data) từ /api/public/merchant-data
+ */
+export async function getMerchantData(): Promise<any> {
+  return requestBackend(`/api/public/merchant-data`);
+}
+
+/**
+ * 8. Lấy danh sách lịch hẹn (Appointments) từ /api/appointments
+ */
+export async function getAppointments(params?: {
+  page?: number;
+  size?: number;
+  locationId?: number;
+  status?: string;
+  fromDate?: string;
+  toDate?: string;
+}): Promise<any> {
+  const query = params ? "?" + jqParam(params) : "";
+  return requestBackend(`/api/appointments${query}`);
+}
+
+/**
+ * 9. Cập nhật trạng thái lịch hẹn /api/appointments/:id/status
+ */
+export async function updateAppointmentStatus(
+  id: number,
+  status: string
+): Promise<any> {
+  return requestBackend(`/api/appointments/${id}/status`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
+  });
+}
+
+/**
+ * 10. Lấy khung giờ còn trống (Time Frame / Slots) từ /api/get-time-frame
+ */
 export const getTimeFrame = (
   params: IGetTimeFrameParams
 ): Promise<IGetTimeFrameResponse> =>
   API_MODE === "real"
-    ? postReal<IGetTimeFrameResponse>("/get-time-frame", params, 30000)
+    ? postReal<IGetTimeFrameResponse>("/api/get-time-frame", params, 30000)
     : mockTimeFrame(params);
 
+/**
+ * 11. Tra cứu thông tin khách hàng cũ theo SĐT từ /api/dat-lich/getCustomerByMobile
+ */
 export const getCustomerByMobile = (
   params: IGetCustomerParams
 ): Promise<IGetCustomerResponse> =>
   API_MODE === "real"
-    ? postReal<IGetCustomerResponse>("/dat-lich/getCustomerByMobile", params)
+    ? postReal<IGetCustomerResponse>(
+        "/api/dat-lich/getCustomerByMobile",
+        params
+      )
     : mockCustomer(params);
 
+/**
+ * 12. Tạo lịch hẹn đặt chỗ từ /api/dat-lich
+ */
 export const createBooking = (
   payload: IBookingPayload
 ): Promise<{ status: number; data?: { booking_code: string }; message?: string }> =>
   API_MODE === "real"
-    ? postReal("/dat-lich", payload, 60000)
+    ? postReal("/api/dat-lich", payload, 60000)
     : mockBooking(payload);
+
+// -----------------------------------------------------------------
+// HÀM TẢI VÀ ĐỒNG BỘ DỮ LIỆU TỪ BACKEND VÀO ỨNG DỤNG NAIL
+// -----------------------------------------------------------------
+let hasInitializedBackend = false;
+
+export async function initMerchantDataFromBackend(): Promise<boolean> {
+  if (API_MODE !== "real") return false;
+  if (hasInitializedBackend) return true;
+
+  try {
+    // 1. Thử lấy toàn bộ dữ liệu salon qua API /api/public/merchant-data
+    try {
+      const merchant = await getMerchantData();
+      if (merchant && merchant.location && merchant.location.length > 0) {
+        applyMerchantData(merchant);
+        hasInitializedBackend = true;
+        console.log("Đã tải dữ liệu Salon thành công từ backend qua /api/public/merchant-data");
+        return true;
+      }
+    } catch (e) {
+      console.warn("Chưa tải được merchant-data, thử tải qua các API chi tiết...");
+    }
+
+    // 2. Fallback: Lấy song song từ các API con /api/locations, /api/services, /api/technicians
+    const [locRes, catRes, svcRes, techRes] = await Promise.allSettled([
+      getLocations({ size: 100 }),
+      getServiceCategories({ size: 100 }),
+      getServices({ size: 200 }),
+      getTechnicians({ size: 200 }),
+    ]);
+
+    const locations: ILocation[] =
+      locRes.status === "fulfilled" && locRes.value?.content
+        ? locRes.value.content.map((l: any) => ({
+            id: l.id,
+            name: l.name,
+            phone: l.phone || "",
+            address: l.address || "",
+            fullAddress: (l.address || "") + ", " + (l.city || ""),
+            city_name: l.city || "",
+            city_code: 1,
+            district_code: 1,
+            country_code: "VN",
+            sort_order: l.id,
+          }))
+        : [];
+
+    const categories: IProductGroup[] =
+      catRes.status === "fulfilled" && catRes.value?.content
+        ? catRes.value.content.map((c: any) => ({
+            id: c.id,
+            name: c.name,
+            is_active: 1,
+            show_type: 1,
+          }))
+        : [];
+
+    const locIds = locations.map((l) => l.id);
+
+    const services: IProduct[] =
+      svcRes.status === "fulfilled" && svcRes.value?.content
+        ? svcRes.value.content.map((s: any) => ({
+            id: s.id,
+            name: s.name,
+            sku: "SV_" + s.id,
+            type: "SERVICE",
+            group_id: s.categoryId || (s.category ? s.category.id : 1),
+            group_name: s.categoryName || (s.category ? s.category.name : ""),
+            default_price: s.price || 0,
+            service_duration: s.durationMinutes || 60,
+            description: s.description || "",
+            location_ids: locIds,
+            edit_price_in_order: 0,
+          }))
+        : [];
+
+    const technicians: IOperator[] =
+      techRes.status === "fulfilled" && techRes.value?.content
+        ? techRes.value.content.map((t: any) => ({
+            id: t.id,
+            name: t.fullName,
+            title: "Kỹ thuật viên",
+            avatar_url: t.avatarUrl || null,
+            phone: t.phone || "",
+            location_id: t.locationId || (t.location ? t.location.id : 1),
+          }))
+        : [];
+
+    if (locations.length > 0) {
+      applyMerchantData({
+        location: locations,
+        product_groups: categories,
+        product: services,
+        operator: technicians,
+      });
+      hasInitializedBackend = true;
+      console.log("Đã ghép thành công dữ liệu từ các API con của backend!");
+      return true;
+    }
+  } catch (err) {
+    console.error("Không thể kết nối đến backend API, giữ dữ liệu mặc định:", err);
+  }
+  return false;
+}
