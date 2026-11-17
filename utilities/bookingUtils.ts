@@ -232,7 +232,7 @@ export const getProduct = (id: number | string): IProduct | null =>
 export const servicesIn = (locId: number): IProduct[] =>
   productData.filter(
     (p) =>
-      p.type === "SERVICE" &&
+      String(p.type || "").toUpperCase() === "SERVICE" &&
       p.location_ids &&
       p.location_ids.indexOf(Number(locId)) !== -1
   );

@@ -24,6 +24,7 @@ import {
   inMerchantTime,
   merchant_id,
   merchant_timezone,
+  merchantNow,
   merchantToday,
   merchantTimezoneText,
   scrollToEl,
@@ -214,7 +215,7 @@ const BookingView: React.FC = () => {
       return { status: "none", keep: false };
     }
 
-    const thisTime = moment();
+    const thisTime = merchantNow();
     if (setting.booking_before_min) {
       thisTime.add(setting.booking_before_min, "minutes");
     }
@@ -312,7 +313,9 @@ const BookingView: React.FC = () => {
   }, [time, slotState.list]);
 
   const dateTimeText = useMemo(() => {
-    const d = selectedSlotMoment() || moment(date, "YYYY-MM-DD");
+    const d =
+      selectedSlotMoment() ||
+      moment(date, "YYYY-MM-DD").utcOffset(merchant_timezone, true);
     return (
       T.weekday[d.day()] +
       ", " +
@@ -500,7 +503,7 @@ const BookingView: React.FC = () => {
         .second(0);
     const booked_at = bookedMoment.toISOString();
 
-    const earliest = moment().add(setting.booking_before_min || 0, "minutes");
+    const earliest = merchantNow().add(setting.booking_before_min || 0, "minutes");
     if (bookedMoment.isBefore(earliest)) {
       dispatch(bookingActions.setTime(""));
       dispatch(bookingActions.setTimeErr(true));

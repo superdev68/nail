@@ -6,7 +6,7 @@ import NextNProgress from "nextjs-progressbar";
 import { ToastContainer } from "react-toastify";
 import store from "../../store";
 import { bookingActions } from "../../store/booking-slice";
-import { locationList } from "../../utilities/bookingUtils";
+import { locationList, merchantToday } from "../../utilities/bookingUtils";
 import { initMerchantDataFromBackend } from "../../services/api";
 import Header from "../header";
 import Footer from "../footer";
@@ -17,6 +17,10 @@ const BackendDataSync: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const td = merchantToday();
+    dispatch(bookingActions.setToday(td));
+    dispatch(bookingActions.selectDate(td));
+
     initMerchantDataFromBackend().then((success) => {
       if (success) {
         if (locationList.length > 0) {
