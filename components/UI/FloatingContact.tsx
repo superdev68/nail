@@ -7,8 +7,8 @@ interface FloatingContactProps {
 }
 
 export const FloatingContact: React.FC<FloatingContactProps> = ({
-  phone = "0967372690",
-  displayPhone = "0967372690",
+  phone = "0352222868",
+  displayPhone = "0352222868",
   zaloUrl = "https://zalo.me/g/75yjystpq0ospvrqdvbs?joinSrc=9",
 }) => {
   return (
