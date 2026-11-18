@@ -12,6 +12,7 @@ import Header from "../header";
 import Footer from "../footer";
 import IconSprite from "../UI/IconSprite";
 import Modal from "../UI/Modal";
+import FloatingContact from "../UI/FloatingContact";
 
 const BackendDataSync: React.FC = () => {
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
         <Header />
         <main className="wrap">{children}</main>
         <Footer />
+        <FloatingContact />
         <Modal />
         <ToastContainer
           autoClose={2000}
